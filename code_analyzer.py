@@ -1,13 +1,44 @@
 import os
 import ast
+import json
+
 import matplotlib.pyplot as plt
 
 
-def load_code(path_to_file:str) -> ast.AST:
-     
-    with open(path_to_file) as f:
-        tree = ast.parse(f.read(), filename=path_to_file, mode='exec')
+def load_code(path_to_file_or_folder:str) -> ast.AST:
 
+    if os.path.isfile(path_to_file_or_folder):
+        if path_to_file_or_folder.endswith(".py"):
+            with open(path_to_file_or_folder, "r", encoding="utf-8") as f:
+                code = f.read() + "\n"
+        elif path_to_file_or_folder.endswith(".ipynb"):
+            code = ""
+            with open(path_to_file_or_folder, "r", encoding="utf-8") as f:
+                notebook = json.load(f)
+            for cell in notebook.get("cells", []):
+                if cell.get("cell_type") == "code":
+                    code += "".join(cell.get("source", [])) + "\n"
+        else:
+            raise ValueError(f"If a single file is given, it must be a .py or .ipynb file. Got '{path_to_file_or_folder}'.")
+    else:
+        code = ""
+        for cur_root, cur_dirs, cur_files in os.walk(path_to_file_or_folder):
+            for cur_file in cur_files:
+                cur_file_path = os.path.join(root, cur_file)
+                if cur_file.endswith(".py"):
+                    with open(cur_file_path, "r", encoding="utf-8") as f:
+                        code += f.read() + "\n"
+                elif cur_file.endswith(".ipynb"):
+                    with open(cur_file_path, "r", encoding="utf-8") as f:
+                        notebook = json.load(f)
+                    for cell in notebook.get("cells", []):
+                        if cell.get("cell_type") == "code":
+                            code += "".join(cell.get("source", [])) + "\n"
+
+        if code == "":
+            raise ValueError(f"Did not found any python or notebook file in the given folder path. Folder path: {path_to_file_or_folder}")
+
+    tree = ast.parse(code, filename=path_to_file_or_folder, mode='exec')
     return tree
 
 
