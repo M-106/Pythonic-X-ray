@@ -1,3 +1,9 @@
 *.png
 *.jpg
 *.svg
+
+/dist
+/__pycache__
+/src/__pycache
+/Pythonic_X_ray.egg-info
+

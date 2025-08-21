@@ -26,24 +26,27 @@ if __name__ == "__main__":
     parser.add_argument(
         "--verbose",
         action="store_true",
-        default=True,
         help="Print analyzing results."
     )
     parser.add_argument(
         "--save",
         action="store_true",
-        default=True,
         help="Saving Analyzis results into a file."
     )
     parser.add_argument(
         "--save_path",
         type=str,
-        action="store_true",
         default="./",
         help="Folderpath for the saving."
     )
+    parser.add_argument(
+        "--short",
+        action="store_true",
+        help="Shorter Analysis?"
+    )
     args = parser.parse_args()
 
-    analyze_python_files(args.path)
-    ca.analyse_code(args.path, name=args.name, should_print=args.verbose, should_save=args.save, save_path=args.save_path)
+    ca.analyse_code(args.path, code_strs=None, name=args.name, should_print=args.verbose, 
+                    should_save=args.save, save_path=args.save_path, short_analysis=args.short)
+
 
