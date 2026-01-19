@@ -1,8 +1,26 @@
-# Pythonic-X-ray
-Python code analyzer
+<div align="center">
+<img src="./xray_logo.jpeg" width="60%"></img>
+
+<br>
+<b>Simple Python Code Analyzer. With no dependencies!</b>
+</div>
 
 
 
+
+<br><br>
+
+Contents:
+* [Installation](#installation)
+* [How to Run](#how-to-run)
+* [Options for console run](#options-for-console-run)
+* [Examples for console run](#examples-for-console-run)
+* [Options for python call of `analyse_code`](#options-for-python-call-of-analyse_code)
+* [Example Output (short version)](#example-output-short-version)
+
+<br><br>
+
+---
 ### Installation
 
 <!--
@@ -15,17 +33,28 @@ pip install matplotlib
 ([See here for help with anaconda](https://github.com/xXAI-botXx/Project-Helper#anaconda))
 -->
 
-You can use pip: https://pypi.org/project/pythonic-xray/ or you can clone this repo and run it (see next chapter).<br>
-When using pip, you can just use install and use it like that:
+
 ```bash
 pip install pythonic-xray
 ```
 
 <br><br>
 
+---
 ### How to Run
 
-The easy way is with pip:
+<br>
+
+You can run it directly from your console:
+```bash
+python -m pythonic_xray
+```
+or:
+```bash
+pythonic-xray
+```
+
+Or in your python code:
 ```python
 from pythonic_xray import analyse_code
 
@@ -39,6 +68,66 @@ analysis_str = analyse_code(
                     short_analysis=True
                 )
 ```
+
+
+
+
+<br><br>
+
+---
+### Options for console run
+
+<br>
+
+| Option        | Type | Default                | Description                                                         |
+| ------------- | ---- | ---------------------- | ------------------------------------------------------------------- |
+| `--path`      | str  | `.`                    | Path to a Python file or folder containing Python files to analyze. |
+| `--name`      | str  | `"My Awesome Project"` | Name of your project (used in saved results).                       |
+| `--verbose`   | flag | `False`                 | If included, prints the analysis results in the console.            |
+| `--save`      | flag | `False`                 | If included, saves the analysis results to a file.                  |
+| `--save_path` | str  | `"./"`                 | Folder path where analysis results will be saved.                   |
+| `--short` | flag  | `False`                 | If included, a shorter version will be created.                   |
+
+
+<br><br>
+
+---
+### Examples for console run
+
+<br>
+
+1. **Quick inspection of a local project (no files written)**<br>
+    Use this when you just want a fast overview of the current repository.
+    ```bash
+    pythonic-xray --verbose
+    ```
+2. **Analyze a full project and store the results for later review**<br>
+    This is useful when analyzing larger repositories or when you want to share results.
+    ```bash
+    pythonic-xray --path ./src --save --save_path ./analysis_results
+    ```
+3. **Analyze a single module you are actively working on**<br>
+    Focus on one file while developing or debugging a specific component.
+    ```bash
+    pythonic-xray --path ./models/tsmixer.py --name "TSMixer Module" --verbose
+    ```
+4. **Short summary for CI, reports, or quick comparisons**<br>
+    Generate a compact analysis that is easy to scan or archive.
+    ```bash
+    pythonic-xray --path . --save --short
+    ```
+5. **Full analysis with custom project name** (recommended)<br>
+    Generate a compact analysis that is easy to scan or archive.
+    ```bash
+    pythonic-xray --path . --name "Recommendation System v2" --verbose --save --save_path ./
+    ```
+
+<br><br>
+
+---
+### Options for python call of `analyse_code`
+
+<br>
 
 **Parameters**
 
@@ -58,93 +147,13 @@ analysis_str = analyse_code(
 This function does return the analysis text as str. Results are printed and/or saved into a code_analysis.txt depending on `should_print` and `should_save`.
 
 
-<br><br>
-
-You can also run the analyzer script from the **command line**. It supports analyzing both Python files and folders containing Python files.
-
-```bash
-python analyze.py [OPTIONS]
-```
-
-Or use add it as submodule/clone it and call the code in your code: 
-<br>
-There are two options:
-
-1. **Clone the repository** and import it:
-    ```bash
-    git clone https://github.com/yourusername/code-analyzer.git
-    ```
-    Then in your Python script:
-    ```python
-    import os
-    import code_analyzer as ca
-
-    # Analyze a single file
-    ca.analyse_code("path/to/file.py", name="My Project", should_print=True, should_save=True, save_path="./")
-
-    # Or analyze a folder
-    folder_path = "../my_project"
-    for root, dirs, files in os.walk(folder_path):
-        for f in files:
-            if f.endswith(".py"):
-                ca.analyse_code(os.path.join(root, f), name="My Project", should_print=True, should_save=True, save_path="./")
-    ```
-
-2. **Add it as a submodule** in your own project (if using git):
-    ```bash
-    git submodule add https://github.com/yourusername/code-analyzer.git submodules/code_analyzer
-    ```
-    Then import it the same way in your code:
-    ```python
-    from submodules import code_analyzer as ca
-    ```
-    This allows you to directly call `analyse_code` on files or folders from within your scripts, without running the CLI.
-
 
 <br><br>
 
-### Options for console run
-
-| Option        | Type | Default                | Description                                                         |
-| ------------- | ---- | ---------------------- | ------------------------------------------------------------------- |
-| `--path`      | str  | `.`                    | Path to a Python file or folder containing Python files to analyze. |
-| `--name`      | str  | `"My Awesome Project"` | Name of your project (used in saved results).                       |
-| `--verbose`   | flag | `False`                 | If included, prints the analysis results in the console.            |
-| `--save`      | flag | `False`                 | If included, saves the analysis results to a file.                  |
-| `--save_path` | str  | `"./"`                 | Folder path where analysis results will be saved.                   |
-| `--short` | flag  | `False`                 | If included, a shorter version will be created.                   |
-
-<br><br>
-
-### Examples for cosnole run
-
-1. **Analyze current folder, print results, but don’t save**:
-
-```bash
-python ./pythonic_xray/main.py --verbose
-```
-
-2. **Analyze a specific folder and save results**:
-
-```bash
-python ./pythonic_xray/main.py --path ./example_python_project --save --save_path ./results
-```
-
-3. **Analyze a single Python file with a custom project name**:
-
-```bash
-python ./pythonic_xray/main.py --path ./example_python_project/examples/pytorch/tsmixer.py --name "TSMixer" --verbose --save
-```
-
-4. **Standard**:
-
-```bash
-python ./pythonic_xray/main.py --path . --name "My AI Guide" --verbose --save --short
-```
-
-<br><br>
-
+---
 ### Example Output (short version)
+
+<br><br>
 
 ```
 

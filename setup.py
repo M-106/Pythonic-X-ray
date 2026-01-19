@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pythonic-xray',
-    version='0.6',
+    version='0.7',
     license='MIT',
     packages=find_packages(),
     install_requires=[
@@ -18,5 +18,10 @@ setup(
         # "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    entry_points={
+        "console_scripts": [
+            "pythonic-xray=pythonic_xray.main:main",
+        ],
+    },
 )
 
