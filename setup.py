@@ -1,14 +1,18 @@
 from setuptools import setup, find_packages
 
+with open("./README.md", "r") as f:
+    readme = f.read()
+readme = readme.replace('src="./xray_logo.jpeg"', 'src="https://github.com/M-106/Pythonic-X-ray/raw/main/xray_logo.jpeg"')
+
 setup(
     name='pythonic-xray',
-    version='0.7',
+    version='0.8',
     license='MIT',
     packages=find_packages(),
     install_requires=[
         # List any dependencies here, e.g. 'numpy', 'requests'
     ],
-    long_description=open('README.md').read(),
+    long_description=readme,
     long_description_content_type="text/markdown",
     author = 'Tobia Ippolito',                   # Type in your name
     url = 'https://github.com/M-106/Pythonic-X-ray',   # Provide either the link to your github or to your website
